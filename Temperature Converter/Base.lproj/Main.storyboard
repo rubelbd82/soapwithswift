@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Temperature_Converter" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Celsius: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TOK-vk-Umr">
+                                <rect key="frame" x="20" y="40" width="66" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fahrenheit:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fqG-Qi-JoX">
+                                <rect key="frame" x="20" y="84" width="86" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8j3-90-yHd">
+                                <rect key="frame" x="114" y="36" width="466" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PN0-1J-vKu">
+                                <rect key="frame" x="114" y="80" width="466" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nhG-W2-gxa">
+                                <rect key="frame" x="254" y="133" width="93" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="93" id="k9G-iV-HpJ"/>
+                                </constraints>
+                                <state key="normal" title="Convert">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="actionConvert:" destination="BYZ-38-t0r" eventType="touchUpInside" id="y7b-pQ-7dx"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="nhG-W2-gxa" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="2k6-6h-Rc1"/>
+                            <constraint firstItem="TOK-vk-Umr" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" symbolic="YES" id="2uQ-7l-aya"/>
+                            <constraint firstItem="fqG-Qi-JoX" firstAttribute="top" secondItem="TOK-vk-Umr" secondAttribute="bottom" constant="23" id="Rg1-j4-yyJ"/>
+                            <constraint firstItem="TOK-vk-Umr" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="cBN-93-90r"/>
+                            <constraint firstItem="PN0-1J-vKu" firstAttribute="top" secondItem="8j3-90-yHd" secondAttribute="bottom" constant="14" id="gxb-tW-ja8"/>
+                            <constraint firstItem="PN0-1J-vKu" firstAttribute="leading" secondItem="8j3-90-yHd" secondAttribute="leading" id="kVI-Bi-bkv"/>
+                            <constraint firstAttribute="trailing" secondItem="8j3-90-yHd" secondAttribute="trailing" constant="20" symbolic="YES" id="koI-IT-q23"/>
+                            <constraint firstItem="PN0-1J-vKu" firstAttribute="leading" secondItem="fqG-Qi-JoX" secondAttribute="trailing" constant="8" symbolic="YES" id="mkY-j6-4Yo"/>
+                            <constraint firstItem="nhG-W2-gxa" firstAttribute="top" secondItem="PN0-1J-vKu" secondAttribute="bottom" constant="23" id="syJ-Th-zCU"/>
+                            <constraint firstItem="8j3-90-yHd" firstAttribute="trailing" secondItem="PN0-1J-vKu" secondAttribute="trailing" id="tW8-4j-N7e"/>
+                            <constraint firstItem="TOK-vk-Umr" firstAttribute="leading" secondItem="fqG-Qi-JoX" secondAttribute="leading" id="uvy-Ao-OpR"/>
+                            <constraint firstItem="8j3-90-yHd" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="16" id="wjf-00-SO9"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="txtCelsius" destination="8j3-90-yHd" id="tfe-rQ-AAR"/>
+                        <outlet property="txtFahrenheit" destination="PN0-1J-vKu" id="2dN-82-aE1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+</document>

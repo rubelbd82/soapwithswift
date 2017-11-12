@@ -10,42 +10,41 @@ import UIKit
 
 //Step 1: Add protocol names that we will be delegating.
 
-class ViewController: UIViewController, UITextFieldDelegate, NSURLConnectionDelegate, NSXMLParserDelegate {
+class ViewController: UIViewController, UITextFieldDelegate, NSURLConnectionDelegate,NSURLConnectionDataDelegate,  XMLParserDelegate {
     
     var mutableData:NSMutableData  = NSMutableData()
-    var currentElementName:NSString = ""
-    
-    
-    
+    var currentElementName:String = ""
+
     @IBOutlet var txtCelsius : UITextField!
     @IBOutlet var txtFahrenheit : UITextField!
     
-    
-    @IBAction func actionConvert(sender : AnyObject) {
+    @IBAction func actionConvert(_ sender: Any) {
         let celcius = txtCelsius.text
         
-        let soapMessage = "<?xml version='1.0' encoding='utf-8'?><soap12:Envelope xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:soap12='http://www.w3.org/2003/05/soap-envelope'><soap12:Body><CelsiusToFahrenheit xmlns='http://www.w3schools.com/xml/'><Celsius>\(celcius!)</Celsius></CelsiusToFahrenheit></soap12:Body></soap12:Envelope>"
+//        let soapMessage = "<?xml version='1.0' encoding='utf-8'?><soap12:Envelope xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:soap12='http://www.w3.org/2003/05/soap-envelope'><soap12:Body><CelsiusToFahrenheit xmlns='http://www.w3schools.com/xml/'><Celsius>\(celcius!)</Celsius></CelsiusToFahrenheit></soap12:Body></soap12:Envelope>"
         
-        let urlString = "http://www.w3schools.com/xml/tempconvert.asmx"
         
-        let url = NSURL(string: urlString)
+        let soapMessage = "<?xml version='1.0' encoding='utf-8'?>        <soap:Envelope xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'><soap:Body><ConvertTemp xmlns='http://www.webserviceX.NET/'><Temperature>\(celcius!)</Temperature><FromUnit>degreeCelsius</FromUnit><ToUnit>degreeFahrenheit</ToUnit></ConvertTemp></soap:Body></soap:Envelope>"
         
-        let theRequest = NSMutableURLRequest(URL: url!)
+//        let urlString = "http://www.webservicex.net/ConvertTemperature.asmx"
+        let urlString = "http://www.webservicex.net/ConvertTemperature.asmx"
+        
+        let url = URL(string: urlString)
+        
+        let theRequest = NSMutableURLRequest(url: url!)
         
         let msgLength = soapMessage.characters.count
         
         theRequest.addValue("text/xml; charset=utf-8", forHTTPHeaderField: "Content-Type")
         theRequest.addValue(String(msgLength), forHTTPHeaderField: "Content-Length")
-        theRequest.HTTPMethod = "POST"
-        theRequest.HTTPBody = soapMessage.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) // or false
+        theRequest.httpMethod = "POST"
+        theRequest.httpBody = soapMessage.data(using: String.Encoding.utf8, allowLossyConversion: false) // or false
         
-        let connection = NSURLConnection(request: theRequest, delegate: self, startImmediately: true)
+        let connection = NSURLConnection(request: theRequest as URLRequest, delegate: self, startImmediately: true)
+        
         connection!.start()
         
-        if (connection == true) {
-            var mutableData : Void = NSMutableData.initialize()
-        }
-
+ 
     
     }
 
@@ -65,38 +64,46 @@ class ViewController: UIViewController, UITextFieldDelegate, NSURLConnectionDele
     // NSURL
     
     
-    
-    func connection(connection: NSURLConnection!, didReceiveResponse response: NSURLResponse!) {
-        mutableData.length = 0;
-    }
-    
-    func connection(connection: NSURLConnection!, didReceiveData data: NSData!) {
-        mutableData.appendData(data)
-    }
-    
-    
-    func connectionDidFinishLoading(connection: NSURLConnection!) {
-        let response = NSString(data: mutableData, encoding: NSUTF8StringEncoding)
-        
-        let xmlParser = NSXMLParser(data: mutableData)
-        xmlParser.delegate = self
-        xmlParser.parse()
-        xmlParser.shouldResolveExternalEntities = true
-    }
+
 
     
     // NSXMLParserDelegate
     
     
-    func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
+    func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
         currentElementName = elementName
     }
     
     
-    func parser(parser: NSXMLParser, foundCharacters string: String) {
-        if currentElementName == "CelsiusToFahrenheitResult" {
+    
+    func parser(_ parser: XMLParser, foundCharacters string: String) {
+        if currentElementName == "ConvertTempResult" {
             txtFahrenheit.text = string
         }
     }
+    
+    
+    
+    func connection(_ connection: NSURLConnection, didFailWithError error: Error) {
+        print("connection error = \(error)")
+    }
+    
+    func connection(_ connection: NSURLConnection, didReceive response: URLResponse) {
+        mutableData = NSMutableData()
+    }
+    
+    
+    func connection(_ connection: NSURLConnection, didReceive data: Data) {
+        self.mutableData.append(data)
+    }
+    
+    func connectionDidFinishLoading(_ connection: NSURLConnection) {
+        
+        let xmlParser = XMLParser(data: mutableData as Data)
+        xmlParser.delegate = self
+        xmlParser.parse()
+        xmlParser.shouldResolveExternalEntities = true
+    }
+
 }
 
